@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
 
         const { subscriptionStatus } = await checkSubscription(fbid);
         if (subscriptionStatus === 'A') {
-          console.time('NumberCheck');
+
           // Check if the message contains a number greater than 5
           const numbersGreaterThan5 = query.match(/\d+/g)?.filter((num) => Number(num) > 5);
           if (numbersGreaterThan5?.length > 0) {
@@ -58,8 +58,6 @@ router.post('/', async (req, res) => {
               query = query.replace(num, '3');
             });
           }
-          console.timeEnd('NumberCheck');
-          console.time('chat');
           // Call the chatCompletion function to get the response
           const result = await chatCompletion(query, fbid);
 
@@ -68,8 +66,6 @@ router.post('/', async (req, res) => {
           
           // Send the response to the user
           await sendMessage(fbid, result.response);
-          console.timeEnd('chat');
-          console.log('OpenAI chat completion response sent.');
         }
       } else {
         // If the message or message.text is undefined, send an automatic reply to the user
