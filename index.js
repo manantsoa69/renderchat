@@ -26,7 +26,7 @@ webApp.get('/hello', (req, res) => {
   // Log something after receiving the request
 
   
-  res.send('Hello, this is a simple response from the server!');
+  res.send('Hserver!');
   console.log(' /up');
 });
 
