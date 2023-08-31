@@ -9,14 +9,14 @@ console.log('mysql connection established!');
 
 const { sendMessage } = require('./messengerApi');
 
-const saveSubscription = async (fbid, subscriptionStatus) => {
-  if (subscriptionStatus === 'A') {
+const saveSubscription = async (fbid, Status) => {
+  if (Status === 'A') {
     return true;
   }
 
-  const expireSeconds = 600; // Set expiration time in seconds (e.g., 600 seconds = 10 minutes)
+  const expireSeconds = 600; 
   try {
-
+    console.log('Saving subscription: 10M');
     const expireDateISOString = new Date(Date.now() + expireSeconds * 1000).toISOString();
     const formattedValue = `${expireDateISOString} (Free)`;
     const cacheKey = `${fbid}`;
@@ -36,7 +36,7 @@ const saveSubscription = async (fbid, subscriptionStatus) => {
     const saved = true;
 
     if (saved) {
-      console.log('Saved successfully.');
+      console.log('Saved ');
       await sendMessage(
         fbid,
         `Félicitations ! 🎉 Vous avez remporté un abonnement gratuit de 10 minutes pour découvrir notre chatbot, Ahy.
