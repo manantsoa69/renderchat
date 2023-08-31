@@ -1,3 +1,4 @@
+//routes/fbWebhookRoute.js
 const express = require('express');
 const router = express.Router();
 const { checkSubscription } = require('../helper/subscriptionHelper');
@@ -26,6 +27,7 @@ async function saveResponseToSupabase(prompt, response) {
 
     if (error) {
       console.error('Error saving to Supabase:', error.message);
+
     }
   } catch (error) {
     console.error('Error occurred while saving to Supabase:', error.message);
@@ -47,9 +49,8 @@ router.post('/', async (req, res) => {
           return res.sendStatus(200);
         }
 
-        const { subscriptionStatus } = await checkSubscription(fbid);
-        if (subscriptionStatus === 'A') {
-
+        const { Status } = await checkSubscription(fbid);
+        if (Status === 'A') {
           // Check if the message contains a number greater than 5
           const numbersGreaterThan5 = query.match(/\d+/g)?.filter((num) => Number(num) > 5);
           if (numbersGreaterThan5?.length > 0) {
@@ -66,6 +67,7 @@ router.post('/', async (req, res) => {
           
           // Send the response to the user
           await sendMessage(fbid, result.response);
+          //console.log('ok.');
         }
       } else {
         // If the message or message.text is undefined, send an automatic reply to the user
