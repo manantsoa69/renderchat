@@ -1,4 +1,5 @@
 //routes/fbWebhookRoute.js
+//routes/fbWebhookRoute.js
 const express = require('express');
 const router = express.Router();
 const { checkSubscription } = require('../helper/subscriptionHelper');
@@ -6,6 +7,25 @@ const { sendMessage } = require('../helper/messengerApi');
 const { chatCompletion } = require('../helper/openaiApi');
 const { checkNumber } = require('./numberValidation');
 const axios = require('axios');
+async function callChatCompletionService(prompt, fbid) {
+  try {
+    const complexionServiceUrl = 'https://response-qqh1.onrender.com/generate-response'; 
+    
+    const response = await axios.post(
+      complexionServiceUrl,
+      { prompt, fbid },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data; // Assuming the service responds with JSON data
+  } catch (error) {
+    console.error('Error calling chat completion service:', );
+    throw error;
+  }
+}
 
 // Function to save the response and prompt to Supabase
 async function saveResponseToSupabase(prompt, response) {
@@ -52,22 +72,27 @@ router.post('/', async (req, res) => {
         const { Status } = await checkSubscription(fbid);
         if (Status === 'A') {
           // Check if the message contains a number greater than 5
-          const numbersGreaterThan5 = query.match(/\d+/g)?.filter((num) => Number(num) > 5);
+          const numbersGreaterThan5 = query.match(/\d+/g)?.filter((num) => Number(num) > 20000);
           if (numbersGreaterThan5?.length > 0) {
             // Modify the prompt to replace the numbers greater than 5 with 3
             numbersGreaterThan5.forEach((num) => {
               query = query.replace(num, '3');
             });
           }
-          // Call the chatCompletion function to get the response
-          const result = await chatCompletion(query, fbid);
 
-          // Save the prompt and response to Supabase
-          saveResponseToSupabase(query, result.response);
-          
-          // Send the response to the user
-          await sendMessage(fbid, result.response);
-          //console.log('ok.');
+          try {
+            // Call the chatCompletionService function to get the response
+            const result = await callChatCompletionService(query, fbid);
+
+              // Save the prompt and response to Supabase
+              saveResponseToSupabase(query, result.response);
+              // Send the response to the user
+              await sendMessage(fbid, result.response);
+            
+          } catch (error) { 
+            await chatCompletion(query, fbid);   
+            console.log('chat')
+          }
         }
       } else {
         // If the message or message.text is undefined, send an automatic reply to the user
