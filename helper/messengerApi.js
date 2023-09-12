@@ -42,11 +42,20 @@ apiClient.defaults.params = {
 
 const sendMessage = async (fbid, message) => {
   try {
-    await apiClient.post(`${getCachedPageID()}/messages`, {
-      recipient: { id: fbid },
-      messaging_type: 'RESPONSE',
-      message: { text: message },
-    });
+    // Determine the maximum message length (you can adjust this as needed)
+    const maxMessageLength = 2100; // Example: Split messages if longer than 300 characters
+
+    if (message.length <= maxMessageLength) {
+      // Message is within the length limit, send it as is
+      await sendSingleMessage(fbid, message);
+    } else {
+      // Message is too long, split it into two parts and send separately
+      const part1 = message.substring(0, maxMessageLength);
+      const part2 = message.substring(maxMessageLength);
+
+      await sendSingleMessage(fbid, part1);
+      await sendSingleMessage(fbid, part2);
+    }
 
     return 1;
   } catch (error) {
@@ -54,6 +63,15 @@ const sendMessage = async (fbid, message) => {
     return 0;
   }
 };
+
+const sendSingleMessage = async (fbid, message) => {
+  return apiClient.post(`${getCachedPageID()}/messages`, {
+    recipient: { id: fbid },
+    messaging_type: 'RESPONSE',
+    message: { text: message },
+  });
+};
+
 
 module.exports = {
   sendMessage,
