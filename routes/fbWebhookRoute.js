@@ -84,13 +84,7 @@ router.post('/', async (req, res) => {
             console.log('chat')
           }
         }
-      } else {
-        // If the message or message.text is undefined, send an automatic reply to the user
-        const errorMessage = `
-        Bonjour ! 👋
-        C'est un plaisir de vous rencontrer, je suis votre assistant virtuel, prêt à vous fournir une assistance efficace et professionnelle. N'hésitez pas à me poser vos questions, je suis là pour vous accompagner en toute circonstance. 😊.`;
-        sendMessage(fbid, errorMessage);
-      }
+      }      
     }
   } catch (error) {
     console.error('Error occurred:', error);
