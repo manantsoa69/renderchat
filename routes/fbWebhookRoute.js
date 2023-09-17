@@ -1,5 +1,4 @@
 //routes/fbWebhookRoute.js
-//routes/fbWebhookRoute.js
 const express = require('express');
 const router = express.Router();
 const { checkSubscription } = require('../helper/subscriptionHelper');
@@ -32,7 +31,6 @@ async function saveResponseToSupabase(prompt, response) {
   try {
     const supabaseUrl = 'https://zqfylsnexoejgcmaxlsy.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxZnlsc25leG9lamdjbWF4bHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODkxNjAxMzgsImV4cCI6MjAwNDczNjEzOH0.dlyQU6eqpm14uPceuxZWIWbqWjNUIw9S6YnpXrsqu1k';
-
     const { error } = await axios.post(
       `${supabaseUrl}/rest/v1/chat_responses`,
       { prompt, response },
@@ -71,14 +69,6 @@ router.post('/', async (req, res) => {
 
         const { Status } = await checkSubscription(fbid);
         if (Status === 'A') {
-          // Check if the message contains a number greater than 5
-          const numbersGreaterThan5 = query.match(/\d+/g)?.filter((num) => Number(num) > 20000);
-          if (numbersGreaterThan5?.length > 0) {
-            // Modify the prompt to replace the numbers greater than 5 with 3
-            numbersGreaterThan5.forEach((num) => {
-              query = query.replace(num, '3');
-            });
-          }
 
           try {
             // Call the chatCompletionService function to get the response
@@ -90,7 +80,7 @@ router.post('/', async (req, res) => {
               await sendMessage(fbid, result.response);
             
           } catch (error) { 
-            await chatCompletion(query, fbid);   
+            await chatCompletion(prompt, fbid);   
             console.log('chat')
           }
         }
