@@ -26,31 +26,6 @@ async function callChatCompletionService(prompt, fbid) {
   }
 }
 
-// Function to save the response and prompt to Supabase
-async function saveResponseToSupabase(prompt, response) {
-  try {
-    const supabaseUrl = 'https://zqfylsnexoejgcmaxlsy.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxZnlsc25leG9lamdjbWF4bHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODkxNjAxMzgsImV4cCI6MjAwNDczNjEzOH0.dlyQU6eqpm14uPceuxZWIWbqWjNUIw9S6YnpXrsqu1k';
-    const { error } = await axios.post(
-      `${supabaseUrl}/rest/v1/chat_responses`,
-      { prompt, response },
-      {
-        headers: {
-          'apikey': supabaseKey,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=representation',
-        },
-      }
-    );
-
-    if (error) {
-      console.error('Error saving to Supabase:', error.message);
-
-    }
-  } catch (error) {
-    console.error('Error occurred while saving to Supabase:', error.message);
-  }
-}
 router.post('/', async (req, res) => {
   try {
     const { entry } = req.body;
@@ -74,8 +49,6 @@ router.post('/', async (req, res) => {
             // Call the chatCompletionService function to get the response
             const result = await callChatCompletionService(query, fbid);
 
-              // Save the prompt and response to Supabase
-              saveResponseToSupabase(query, result.response);
               // Send the response to the user
               await sendMessage(fbid, result.response);
             
