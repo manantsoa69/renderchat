@@ -80,7 +80,7 @@ router.post('/', async (req, res) => {
               await sendMessage(fbid, result.response);
             
           } catch (error) { 
-            await chatCompletion(prompt, fbid);   
+            await chatCompletion(query, fbid);    
             console.log('chat')
           }
         }
