@@ -44,7 +44,9 @@ Orange Money: 032 41 969 56
 
       if (!subscriptionItem || !subscriptionItem.expireDate) {
         await saveSubscription(fbid);
-        return {};
+        return {
+          Status: 'A',
+        };
       }
 
       const currentDate = new Date();
