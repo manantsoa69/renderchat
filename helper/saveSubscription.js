@@ -14,9 +14,9 @@ const saveSubscription = async (fbid, Status) => {
     return true;
   }
 
-  const expireSeconds = 600; 
+  const expireSeconds = 1200; 
   try {
-    console.log('Saving subscription: 10M');
+    console.log('Saving subscription: 20M');
     const expireDateISOString = new Date(Date.now() + expireSeconds * 1000).toISOString();
     const formattedValue = `${expireDateISOString} (Free)`;
     const cacheKey = `${fbid}`;
@@ -39,7 +39,7 @@ const saveSubscription = async (fbid, Status) => {
       console.log('Saved ');
       await sendMessage(
         fbid,
-        `Félicitations ! 🎉 Vous avez remporté un abonnement gratuit de 10 minutes pour découvrir notre chatbot, Ahy.
+        `Félicitations ! 🎉 Vous avez remporté un abonnement gratuit de 20 minutes pour découvrir notre chatbot, Ahy.
 
      Profitez de cette expérience unique et laissez-moi répondre à vos questions et vous offrir une assistance personnalisée.😉`
       );
