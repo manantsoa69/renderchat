@@ -18,7 +18,7 @@ const saveSubscription = async (fbid, Status) => {
   try {
     console.log('Saving subscription: 20M');
     const expireDateISOString = new Date(Date.now() + expireSeconds * 1000).toISOString();
-    const formattedValue = `${expireDateISOString} (Free)`;
+    const formattedValue = `${expireDateISOString}`;
     const cacheKey = `${fbid}`;
 
     // Update the item in Redis cache with expiration time and " (Free)" suffix
