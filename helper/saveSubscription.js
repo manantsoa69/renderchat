@@ -37,12 +37,8 @@ const saveSubscription = async (fbid, Status) => {
 
     if (saved) {
       console.log('Saved ');
-      await sendMessage(
-        fbid,
-        `Félicitations ! 🎉 Vous avez remporté un abonnement gratuit de 20 minutes pour découvrir notre chatbot, Ahy.
 
-     Profitez de cette expérience unique et laissez-moi répondre à vos questions et vous offrir une assistance personnalisée.😉`
-      );
+
     } else {
       console.log('Failed to save.');
     }
