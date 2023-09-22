@@ -53,7 +53,8 @@ router.post('/', async (req, res) => {
               await sendMessage(fbid, result.response);
             
           } catch (error) { 
-            await chatCompletion(query, fbid);    
+            const result = await callChatCompletionService(query, fbid);
+            await sendMessage(fbid, result.response);
             console.log('chat')
           }
         }
