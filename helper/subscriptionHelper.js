@@ -19,7 +19,7 @@ const checkSubscription = async (fbid) => {
         await sendMessage(fbid, `
 📢 Offre de Renouvellement - Détails et Paiement:
 🗓️ Durée: 1 Mois (24h/24) ⏰
-💰 Prix: 8900 Ariary
+💰 Prix: 5900 Ariary
 
 🏧 Moyens de paiement acceptés:
 Mvola: 038 82 686 00
