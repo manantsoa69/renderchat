@@ -26,6 +26,7 @@ const checkSubscription = async (fbid) => {
 
 🏧 Moyens de paiement acceptés :
 Mvola : 038 82 686 00
+Airtel Money: 033 20 449 55
 Orange Money : 032 41 969 56
 
 👤 Tous les comptes sont au nom de RAZAFIMANANTSOA Jean Marc.
